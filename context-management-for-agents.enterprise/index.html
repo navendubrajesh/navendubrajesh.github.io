@@ -29,21 +29,6 @@
     .enterprise-hero { padding: calc(var(--header-h) + 2rem) 0 3rem; }
     .enterprise-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin: 0 0 1rem; line-height: 1.2; }
     .enterprise-hero .lead { font-size: 1.125rem; color: var(--text-muted); max-width: 42rem; margin: 0 0 1.5rem; }
-    .feature-grid {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-      margin: 2rem 0;
-    }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
-    }
-    .feature-card h2 { font-size: 1rem; margin: 0 0 0.5rem; }
-    .feature-card p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
     .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
     .disclaimer {
       margin-top: 2.5rem;
@@ -53,6 +38,187 @@
       border-radius: 0 var(--radius) var(--radius) 0;
       font-size: 0.95rem;
       color: var(--text-muted);
+    }
+
+    .docs-panel {
+      display: none;
+      padding: 0 0 4rem;
+    }
+
+    .docs-panel.is-open {
+      display: block;
+    }
+
+    .docs-layout {
+      display: grid;
+      grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 56rem) {
+      .docs-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .docs-nav {
+      position: sticky;
+      top: calc(var(--header-h) + 1rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .docs-nav-home {
+      display: block;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .docs-nav-home:hover,
+    .docs-nav-home.is-active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-nav-label {
+      margin: 0.5rem 0 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .docs-nav-tiles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .docs-nav-tile {
+      display: block;
+      width: 100%;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .docs-nav-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .docs-nav-tile.is-active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-nav-tile strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.98rem;
+    }
+
+    .docs-nav-tile span {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .docs-nav-more {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .docs-nav-more a {
+      display: block;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .docs-nav-more a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-content {
+      min-height: 28rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .docs-content-inner {
+      padding: 2rem;
+    }
+
+    .docs-content-inner h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+    }
+
+    .docs-content-inner p,
+    .docs-content-inner li {
+      color: var(--text-muted);
+    }
+
+    .docs-content-inner ul {
+      padding-left: 1.2rem;
+    }
+
+    .docs-frame {
+      display: none;
+      width: 100%;
+      min-height: 70vh;
+      border: 0;
+      background: #fff;
+    }
+
+    .docs-frame.is-visible {
+      display: block;
+    }
+
+    .docs-content-inner.is-hidden {
+      display: none;
+    }
+
+    .btn.is-active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
     }
   </style>
 </head>
@@ -67,7 +233,7 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="/#work">Work</a>
-        <a href="https://navendubrajesh.github.io/context-management-for-agents/" rel="noopener noreferrer">Docs</a>
+        <a href="#docs" id="header-docs-toggle">Docs</a>
         <a href="https://github.com/navendubrajesh/context-management-for-agents" rel="noopener noreferrer">GitHub</a>
       </nav>
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
@@ -78,7 +244,7 @@
   </header>
 
   <main id="main">
-    <section class="enterprise-hero">
+    <section class="enterprise-hero" id="landing">
       <div class="container">
         <p class="hero-eyebrow">Enterprise · Phase 3</p>
         <h1>Context Management for Agents</h1>
@@ -87,36 +253,9 @@
           tenant isolation, policy gates, audit trails, and finops controls — without changing skill content.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="https://navendubrajesh.github.io/context-management-for-agents/ENTERPRISE/" rel="noopener noreferrer">Deployment guide</a>
-          <a class="btn btn-secondary" href="https://navendubrajesh.github.io/context-management-for-agents/" rel="noopener noreferrer">Full documentation</a>
+          <a class="btn btn-primary" id="deployment-guide-btn" href="#docs-enterprise">Deployment guide</a>
+          <button type="button" class="btn btn-secondary" id="full-docs-btn">Full documentation</button>
           <a class="btn btn-secondary" href="https://github.com/navendubrajesh/context-management-for-agents" rel="noopener noreferrer">Repository</a>
-        </div>
-
-        <div class="feature-grid" aria-label="Enterprise capabilities">
-          <article class="feature-card">
-            <h2>Identity &amp; access</h2>
-            <p>OIDC/SAML SSO, RBAC roles, and optional auth enforcement on the REST API and console.</p>
-          </article>
-          <article class="feature-card">
-            <h2>Multi-tenancy</h2>
-            <p>Tenant-scoped skill catalogs, usage metering, and chargeback reporting per organization.</p>
-          </article>
-          <article class="feature-card">
-            <h2>Policy &amp; approvals</h2>
-            <p>OPA-backed policy checks and publish-approval workflows for regulated skill rollouts.</p>
-          </article>
-          <article class="feature-card">
-            <h2>Audit &amp; compliance</h2>
-            <p>Hash-chained audit events with secret redaction — maps to common frameworks, not certification.</p>
-          </article>
-          <article class="feature-card">
-            <h2>Deployment modes</h2>
-            <p>SaaS, customer VPC (Terraform), and air-gapped bundles with embedded OPA and file vault.</p>
-          </article>
-          <article class="feature-card">
-            <h2>Runtime primitives</h2>
-            <p>Masking, compaction, budgeting, and pipelines callable via MCP, REST, and SDKs.</p>
-          </article>
         </div>
 
         <p class="disclaimer">
@@ -124,6 +263,96 @@
           It does <strong>not</strong> imply SOC 2, FedRAMP, or ISO certification.
           Phases 1–2 run with auth disabled by default (<code>CONTEXT_SKILLS_AUTH_MODE=disabled</code>).
         </p>
+      </div>
+    </section>
+
+    <section class="docs-panel" id="docs-panel" aria-label="Documentation">
+      <div class="container docs-layout">
+        <nav class="docs-nav" aria-label="Documentation sections">
+          <button type="button" class="docs-nav-home is-active" data-view="home">Home</button>
+
+          <p class="docs-nav-label">Enterprise capabilities</p>
+          <ul class="docs-nav-tiles">
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="identity">
+                <strong>Identity &amp; access</strong>
+                <span>OIDC/SAML SSO, RBAC roles, and optional auth enforcement on the REST API and console.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="tenancy">
+                <strong>Multi-tenancy</strong>
+                <span>Tenant-scoped skill catalogs, usage metering, and chargeback reporting per organization.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="policy">
+                <strong>Policy &amp; approvals</strong>
+                <span>OPA-backed policy checks and publish-approval workflows for regulated skill rollouts.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="audit">
+                <strong>Audit &amp; compliance</strong>
+                <span>Hash-chained audit events with secret redaction — maps to common frameworks, not certification.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="deploy">
+                <strong>Deployment modes</strong>
+                <span>SaaS, customer VPC (Terraform), and air-gapped bundles with embedded OPA and file vault.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="runtime">
+                <strong>Runtime primitives</strong>
+                <span>Masking, compaction, budgeting, and pipelines callable via MCP, REST, and SDKs.</span>
+              </button>
+            </li>
+          </ul>
+
+          <p class="docs-nav-label">Full documentation</p>
+          <ul class="docs-nav-more">
+            <li><a href="#" data-frame="/context-management-for-agents/quickstart/">Quickstart</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/concepts/">Concepts</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/skills/">Skills catalog</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/runtime/">Runtime</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/benchmarks/">Benchmarks</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/architecture/">Architecture</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/ENTERPRISE/">Enterprise deployment guide</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/roadmap/">Roadmap</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/RUNBOOK/">Runbook</a></li>
+            <li><a href="#" data-frame="/context-management-for-agents/contributing/">Contributing</a></li>
+          </ul>
+        </nav>
+
+        <div class="docs-content">
+          <div class="docs-content-inner" id="docs-content-inner">
+            <h2>Context Management for Agents</h2>
+            <p>
+              <strong>28 Agent Skills</strong> and a <strong>callable runtime</strong> (MCP, REST, SDKs) for context
+              engineering across GitHub Copilot, Cursor, Kiro, Antigravity, and Amazon Q.
+            </p>
+            <p>
+              Agent quality depends on what fits in the context window. This collection teaches progressive disclosure,
+              compaction, masking, and budgeting — with measured savings on realistic fixtures and a Skill Router that
+              picks the right guidance for a task.
+            </p>
+            <ul>
+              <li>Skills in <code>skills/</code> — 28 SKILL.md files (platform + foundational)</li>
+              <li>Runtime in <code>runtime/</code> — router, loader, MCP, REST, Python/TS SDKs</li>
+              <li>Enterprise in <code>control-plane/</code>, <code>deploy/</code> — IAM, tenancy, policy, audit (Phase 3)</li>
+            </ul>
+            <p>Select an enterprise capability tile on the left, or open a full documentation page below the tiles.</p>
+          </div>
+          <iframe
+            class="docs-frame"
+            id="docs-frame"
+            title="Context Management for Agents documentation"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
       </div>
     </section>
   </main>
@@ -135,12 +364,162 @@
   </footer>
 
   <script>
-    document.getElementById('theme-toggle').addEventListener('click', function () {
-      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('nb-theme', next);
-    });
-    document.getElementById('year').textContent = String(new Date().getFullYear());
+    (function () {
+      var DOCS_BASE = '/context-management-for-agents/';
+      var docsPanel = document.getElementById('docs-panel');
+      var docsInner = document.getElementById('docs-content-inner');
+      var docsFrame = document.getElementById('docs-frame');
+      var fullDocsBtn = document.getElementById('full-docs-btn');
+      var deploymentGuideBtn = document.getElementById('deployment-guide-btn');
+      var headerDocsToggle = document.getElementById('header-docs-toggle');
+      var homeBtn = document.querySelector('.docs-nav-home[data-view="home"]');
+      var tileButtons = document.querySelectorAll('.docs-nav-tile');
+      var frameLinks = document.querySelectorAll('[data-frame]');
+
+      var tileContent = {
+        identity: {
+          title: 'Identity & access',
+          body: '<p>OIDC/SAML SSO, RBAC roles, and optional auth enforcement on the REST API and console.</p><p>Enable with <code>CONTEXT_SKILLS_AUTH_MODE=enforced</code>, configure mock or production IdP settings, and issue JWTs with role and tenant claims for API access.</p>'
+        },
+        tenancy: {
+          title: 'Multi-tenancy',
+          body: '<p>Tenant-scoped skill catalogs, usage metering, and chargeback reporting per organization.</p><p>Separate tenant-a and tenant-b skill visibility, scope usage records per tenant, and export chargeback summaries for FinOps review.</p>'
+        },
+        policy: {
+          title: 'Policy & approvals',
+          body: '<p>OPA-backed policy checks and publish-approval workflows for regulated skill rollouts.</p><p>Block sensitive skills until an admin approves a publish request; evaluate policy at route time before skills enter agent context.</p>'
+        },
+        audit: {
+          title: 'Audit & compliance',
+          body: '<p>Hash-chained audit events with secret redaction — maps to common frameworks, not certification.</p><p>Inspect <code>GET /audit/events</code> for tamper-evident logs. This platform enables controls; it does not imply SOC 2, FedRAMP, or ISO certification.</p>'
+        },
+        deploy: {
+          title: 'Deployment modes',
+          body: '<p>SaaS, customer VPC (Terraform), and air-gapped bundles with embedded OPA and file vault.</p><p>Use Helm charts under <code>deploy/helm/context-skills</code> or follow the air-gapped README for offline installs.</p>'
+        },
+        runtime: {
+          title: 'Runtime primitives',
+          body: '<p>Masking, compaction, budgeting, and pipelines callable via MCP, REST, and SDKs.</p><p>Phase 1 runtime exposes skill discovery and routing; Phase 3 adds primitive endpoints behind auth and policy when enforcement is enabled.</p>'
+        }
+      };
+
+      function setActiveNav(activeEl) {
+        homeBtn.classList.toggle('is-active', activeEl === homeBtn);
+        tileButtons.forEach(function (btn) {
+          btn.classList.toggle('is-active', btn === activeEl);
+        });
+        frameLinks.forEach(function (link) {
+          link.classList.remove('is-active');
+        });
+      }
+
+      function showInlineContent(title, html) {
+        docsInner.classList.remove('is-hidden');
+        docsFrame.classList.remove('is-visible');
+        docsFrame.src = 'about:blank';
+        docsInner.innerHTML = '<h2>' + title + '</h2>' + html;
+      }
+
+      function showHomeContent() {
+        docsInner.classList.remove('is-hidden');
+        docsFrame.classList.remove('is-visible');
+        docsFrame.src = 'about:blank';
+        docsInner.innerHTML =
+          '<h2>Context Management for Agents</h2>' +
+          '<p><strong>28 Agent Skills</strong> and a <strong>callable runtime</strong> (MCP, REST, SDKs) for context engineering across GitHub Copilot, Cursor, Kiro, Antigravity, and Amazon Q.</p>' +
+          '<p>Agent quality depends on what fits in the context window. This collection teaches progressive disclosure, compaction, masking, and budgeting — with measured savings on realistic fixtures and a Skill Router that picks the right guidance for a task.</p>' +
+          '<ul><li>Skills in <code>skills/</code> — 28 SKILL.md files (platform + foundational)</li>' +
+          '<li>Runtime in <code>runtime/</code> — router, loader, MCP, REST, Python/TS SDKs</li>' +
+          '<li>Enterprise in <code>control-plane/</code>, <code>deploy/</code> — IAM, tenancy, policy, audit (Phase 3)</li></ul>' +
+          '<p>Select an enterprise capability tile on the left, or open a full documentation page below the tiles.</p>';
+      }
+
+      function showFrame(path) {
+        docsInner.classList.add('is-hidden');
+        docsFrame.classList.add('is-visible');
+        docsFrame.src = path;
+      }
+
+      function openDocs(view) {
+        docsPanel.classList.add('is-open');
+        fullDocsBtn.classList.add('is-active');
+        if (view === 'enterprise') {
+          history.replaceState(null, '', '#docs-enterprise');
+        } else {
+          history.replaceState(null, '', '#docs');
+        }
+        docsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (view === 'home') {
+          setActiveNav(homeBtn);
+          showHomeContent();
+          return;
+        }
+
+        if (view === 'enterprise') {
+          showFrame(DOCS_BASE + 'ENTERPRISE/');
+          setActiveNav(null);
+          return;
+        }
+
+        if (tileContent[view]) {
+          var tile = tileContent[view];
+          tileButtons.forEach(function (btn) {
+            if (btn.getAttribute('data-view') === view) {
+              setActiveNav(btn);
+            }
+          });
+          showInlineContent(tile.title, tile.body);
+        }
+      }
+
+      fullDocsBtn.addEventListener('click', function () {
+        openDocs('home');
+      });
+
+      headerDocsToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        openDocs('home');
+      });
+
+      deploymentGuideBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        openDocs('enterprise');
+      });
+
+      homeBtn.addEventListener('click', function () {
+        openDocs('home');
+      });
+
+      tileButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openDocs(btn.getAttribute('data-view'));
+        });
+      });
+
+      frameLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          setActiveNav(null);
+          homeBtn.classList.remove('is-active');
+          tileButtons.forEach(function (btn) { btn.classList.remove('is-active'); });
+          link.classList.add('is-active');
+          showFrame(link.getAttribute('data-frame'));
+        });
+      });
+
+      if (location.hash === '#docs' || location.hash === '#docs-enterprise') {
+        openDocs(location.hash === '#docs-enterprise' ? 'enterprise' : 'home');
+      }
+
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('nb-theme', next);
+      });
+
+      document.getElementById('year').textContent = String(new Date().getFullYear());
+    })();
   </script>
 </body>
 </html>
