@@ -82,8 +82,11 @@
   function renderProject(project) {
     var featured = project.featured ? ' is-featured' : '';
     var badge = project.featured ? '<span class="project-badge">Featured</span>' : '';
-    var title = project.links && project.links.repo
-      ? '<a href="' + escapeHtml(project.links.repo) + '" rel="noopener noreferrer">' + escapeHtml(project.title) + '</a>'
+    var titleHref = (project.links && project.links.live)
+      ? project.links.live
+      : (project.links && project.links.repo ? project.links.repo : '');
+    var title = titleHref
+      ? '<a href="' + escapeHtml(titleHref) + '" rel="noopener noreferrer">' + escapeHtml(project.title) + '</a>'
       : escapeHtml(project.title);
 
     var tags = (project.tags || []).map(function (tag) {
@@ -93,7 +96,7 @@
     var links = [];
     if (project.links) {
       if (project.links.repo) links.push(renderLink(project.links.repo, 'Repo', 'icon-repo'));
-      if (project.links.live) links.push(renderLink(project.links.live, 'Live'));
+      if (project.links.live) links.push(renderLink(project.links.live, 'Enterprise'));
       if (project.links.article) links.push(renderLink(project.links.article, 'Article'));
     }
 
