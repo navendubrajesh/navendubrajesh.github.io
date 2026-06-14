@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Context Management for Agents — Enterprise</title>
+  <meta name="description" content="Enterprise deployment patterns for Context Management for Agents: SSO, RBAC, tenancy, audit, finops, and air-gapped installs.">
+  <link rel="canonical" href="https://navendubrajesh.github.io/context-management-for-agents.enterprise/">
+  <meta property="og:title" content="Context Management for Agents — Enterprise">
+  <meta property="og:description" content="Regulated deployment patterns for the context-engineering skills platform and runtime.">
+  <meta property="og:url" content="https://navendubrajesh.github.io/context-management-for-agents.enterprise/">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#134e4a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('nb-theme');
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    .enterprise-hero { padding: calc(var(--header-h) + 2rem) 0 3rem; }
+    .enterprise-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin: 0 0 1rem; line-height: 1.2; }
+    .enterprise-hero .lead { font-size: 1.125rem; color: var(--text-muted); max-width: 42rem; margin: 0 0 1.5rem; }
+    .feature-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      margin: 2rem 0;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .feature-card h2 { font-size: 1rem; margin: 0 0 0.5rem; }
+    .feature-card p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .disclaimer {
+      margin-top: 2.5rem;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header is-scrolled">
+    <div class="header-inner container">
+      <a class="wordmark" href="/" aria-label="Navendu Brajesh — home">
+        <img src="/assets/monogram.svg" width="32" height="32" alt="" aria-hidden="true">
+        <span>Navendu Brajesh</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/#work">Work</a>
+        <a href="https://navendubrajesh.github.io/context-management-for-agents/" rel="noopener noreferrer">Docs</a>
+        <a href="https://github.com/navendubrajesh/context-management-for-agents" rel="noopener noreferrer">GitHub</a>
+      </nav>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
+        <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+        <span class="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="enterprise-hero">
+      <div class="container">
+        <p class="hero-eyebrow">Enterprise · Phase 3</p>
+        <h1>Context Management for Agents</h1>
+        <p class="lead">
+          Deploy the 28-skill context-engineering platform and callable runtime with SSO, RBAC,
+          tenant isolation, policy gates, audit trails, and finops controls — without changing skill content.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://navendubrajesh.github.io/context-management-for-agents/ENTERPRISE/" rel="noopener noreferrer">Deployment guide</a>
+          <a class="btn btn-secondary" href="https://navendubrajesh.github.io/context-management-for-agents/" rel="noopener noreferrer">Full documentation</a>
+          <a class="btn btn-secondary" href="https://github.com/navendubrajesh/context-management-for-agents" rel="noopener noreferrer">Repository</a>
+        </div>
+
+        <div class="feature-grid" aria-label="Enterprise capabilities">
+          <article class="feature-card">
+            <h2>Identity &amp; access</h2>
+            <p>OIDC/SAML SSO, RBAC roles, and optional auth enforcement on the REST API and console.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Multi-tenancy</h2>
+            <p>Tenant-scoped skill catalogs, usage metering, and chargeback reporting per organization.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Policy &amp; approvals</h2>
+            <p>OPA-backed policy checks and publish-approval workflows for regulated skill rollouts.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Audit &amp; compliance</h2>
+            <p>Hash-chained audit events with secret redaction — maps to common frameworks, not certification.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Deployment modes</h2>
+            <p>SaaS, customer VPC (Terraform), and air-gapped bundles with embedded OPA and file vault.</p>
+          </article>
+          <article class="feature-card">
+            <h2>Runtime primitives</h2>
+            <p>Masking, compaction, budgeting, and pipelines callable via MCP, REST, and SDKs.</p>
+          </article>
+        </div>
+
+        <p class="disclaimer">
+          This platform <strong>enables</strong> controls that map to common compliance patterns.
+          It does <strong>not</strong> imply SOC 2, FedRAMP, or ISO certification.
+          Phases 1–2 run with auth disabled by default (<code>CONTEXT_SKILLS_AUTH_MODE=disabled</code>).
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> Navendu Brajesh · <a href="/">Portfolio</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('nb-theme', next);
+    });
+    document.getElementById('year').textContent = String(new Date().getFullYear());
+  </script>
+</body>
+</html>
