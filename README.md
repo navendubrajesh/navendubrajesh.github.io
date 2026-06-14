@@ -41,6 +41,8 @@ Set `"template": true` on schema-only entries; `main.js` filters them out.
 
 Push to `main` on the `navendubrajesh/navendubrajesh.github.io` repository. GitHub Pages serves files from the root automatically.
 
+**Context Management docs:** published at `/context-management-for-agents/`. Rebuilt by `.github/workflows/sync-cmfa-docs.yml` from [context-management-for-agents](https://github.com/navendubrajesh/context-management-for-agents) (daily schedule + manual dispatch).
+
 ## Files
 
 | File | Purpose |

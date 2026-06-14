@@ -1,0 +1,50 @@
+name: Sync CMFA documentation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sync-cmfa-docs.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-cmfa-docs
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/checkout@v4
+        with:
+          repository: navendubrajesh/context-management-for-agents
+          path: cmfa
+
+      - name: Build MkDocs site
+        run: |
+          pip install -r docs/requirements.txt
+          python docs/scripts/generate_skills_catalog.py
+          mkdocs build --strict
+        working-directory: cmfa
+
+      - name: Publish to GitHub Pages path
+        run: |
+          rm -rf context-management-for-agents
+          cp -r cmfa/site context-management-for-agents
+          touch context-management-for-agents/.nojekyll
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Sync context-management-for-agents documentation site."
+          file_pattern: context-management-for-agents/**
