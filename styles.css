@@ -521,6 +521,10 @@ a:hover { color: var(--accent-hover); }
   color: var(--accent);
 }
 
+.connect-icon-logo {
+  object-fit: contain;
+}
+
 .connect-text {
   display: flex;
   flex-direction: column;
