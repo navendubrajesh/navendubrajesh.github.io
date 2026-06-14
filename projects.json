@@ -1,0 +1,25 @@
+[
+  {
+    "title": "context-management-for-agents",
+    "description": "A multi-platform collection of Agent Skills for context engineering — GitHub Copilot, Cursor, Amazon Kiro, Google Antigravity, and Amazon Q Developer.",
+    "tags": ["Context Engineering", "Agent Skills", "LLM", "Open Source"],
+    "featured": true,
+    "links": {
+      "repo": "https://github.com/navendubrajesh/context-management-for-agents",
+      "live": "",
+      "article": ""
+    }
+  },
+  {
+    "title": "_schema_example",
+    "description": "Template entry — copy this object and set template to false. Fields: title, description, tags[], featured (optional), links { repo, live, article }.",
+    "tags": ["Tag One", "Tag Two"],
+    "featured": false,
+    "template": true,
+    "links": {
+      "repo": "https://github.com/navendubrajesh/your-repo",
+      "live": "https://example.com",
+      "article": "https://medium.com/@navendubrajesh/your-article"
+    }
+  }
+]

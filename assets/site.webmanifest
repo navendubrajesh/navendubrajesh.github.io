@@ -1,0 +1,17 @@
+{
+  "name": "Navendu Brajesh",
+  "short_name": "NB",
+  "description": "AI/ML engineer focused on context engineering and production agent systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
