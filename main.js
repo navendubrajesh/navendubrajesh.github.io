@@ -88,6 +88,9 @@
     var title = titleHref
       ? '<a href="' + escapeHtml(titleHref) + '" rel="noopener noreferrer">' + escapeHtml(project.title) + '</a>'
       : escapeHtml(project.title);
+    var dateMarkup = project.date
+      ? '<time class="project-date" datetime="' + escapeHtml(project.date) + '">' + escapeHtml(project.date) + '</time>'
+      : '';
 
     var tags = (project.tags || []).map(function (tag) {
       return '<li>' + escapeHtml(tag) + '</li>';
@@ -104,7 +107,10 @@
       '<article class="project-card' + featured + '">' +
         '<div class="project-body">' +
           badge +
-          '<h3>' + title + '</h3>' +
+          '<div class="project-title-row">' +
+            '<h3>' + title + '</h3>' +
+            dateMarkup +
+          '</div>' +
           '<p class="project-desc">' + escapeHtml(project.description) + '</p>' +
           (tags ? '<ul class="tag-list" aria-label="Tags">' + tags + '</ul>' : '') +
           (links.length ? '<div class="project-links">' + links.join('') + '</div>' : '') +

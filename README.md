@@ -23,6 +23,7 @@ Append an object to `projects.json`:
 ```json
 {
   "title": "your-project-name",
+  "date": "Jun-26",
   "description": "One-line description.",
   "tags": ["Tag One", "Tag Two"],
   "featured": false,

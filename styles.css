@@ -344,10 +344,29 @@ a:hover { color: var(--accent-hover); }
   width: fit-content;
 }
 
+.project-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-date {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
 .project-card h3 {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 1.125rem;
   letter-spacing: -0.01em;
+  min-width: 0;
 }
 
 .project-card h3 a {
