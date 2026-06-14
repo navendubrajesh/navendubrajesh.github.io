@@ -56,6 +56,14 @@
       align-items: start;
     }
 
+    .docs-layout--deployment {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-layout--deployment .docs-nav {
+      display: none;
+    }
+
     @media (max-width: 56rem) {
       .docs-layout {
         grid-template-columns: 1fr;
@@ -440,25 +448,37 @@
         docsFrame.src = path;
       }
 
+      var docsLayout = document.querySelector('.docs-layout');
+
+      function setDocsMode(mode) {
+        docsLayout.classList.toggle('docs-layout--deployment', mode === 'deployment');
+      }
+
+      function setCtaActive(mode) {
+        fullDocsBtn.classList.toggle('is-active', mode === 'full');
+        deploymentGuideBtn.classList.toggle('is-active', mode === 'deployment');
+      }
+
       function openDocs(view) {
         docsPanel.classList.add('is-open');
-        fullDocsBtn.classList.add('is-active');
-        if (view === 'enterprise') {
-          history.replaceState(null, '', '#docs-enterprise');
-        } else {
-          history.replaceState(null, '', '#docs');
-        }
         docsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (view === 'enterprise') {
+          setDocsMode('deployment');
+          setCtaActive('deployment');
+          history.replaceState(null, '', '#docs-enterprise');
+          showFrame(DOCS_BASE + 'ENTERPRISE/');
+          setActiveNav(null);
+          return;
+        }
+
+        setDocsMode('full');
+        setCtaActive('full');
+        history.replaceState(null, '', '#docs');
 
         if (view === 'home') {
           setActiveNav(homeBtn);
           showHomeContent();
-          return;
-        }
-
-        if (view === 'enterprise') {
-          showFrame(DOCS_BASE + 'ENTERPRISE/');
-          setActiveNav(null);
           return;
         }
 
@@ -500,6 +520,10 @@
       frameLinks.forEach(function (link) {
         link.addEventListener('click', function (event) {
           event.preventDefault();
+          docsPanel.classList.add('is-open');
+          setDocsMode('full');
+          setCtaActive('full');
+          history.replaceState(null, '', '#docs');
           setActiveNav(null);
           homeBtn.classList.remove('is-active');
           tileButtons.forEach(function (btn) { btn.classList.remove('is-active'); });
