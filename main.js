@@ -71,9 +71,12 @@
     return div.innerHTML;
   }
 
-  function renderLink(href, label) {
+  function renderLink(href, label, iconId) {
     if (!href) return '';
-    return '<a href="' + escapeHtml(href) + '" rel="noopener noreferrer">' + escapeHtml(label) + '</a>';
+    var icon = iconId
+      ? '<svg class="project-link-icon" aria-hidden="true"><use href="#' + iconId + '"/></svg>'
+      : '';
+    return '<a href="' + escapeHtml(href) + '" rel="noopener noreferrer">' + icon + escapeHtml(label) + '</a>';
   }
 
   function renderProject(project) {
@@ -89,9 +92,9 @@
 
     var links = [];
     if (project.links) {
-      if (project.links.repo) links.push(renderLink(project.links.repo, 'Repo →'));
-      if (project.links.live) links.push(renderLink(project.links.live, 'Live →'));
-      if (project.links.article) links.push(renderLink(project.links.article, 'Article →'));
+      if (project.links.repo) links.push(renderLink(project.links.repo, 'Repo', 'icon-repo'));
+      if (project.links.live) links.push(renderLink(project.links.live, 'Live'));
+      if (project.links.article) links.push(renderLink(project.links.article, 'Article'));
     }
 
     return (
