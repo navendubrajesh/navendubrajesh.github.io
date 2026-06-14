@@ -14,12 +14,12 @@
   {
     "title": "lumina_prompt_engine",
     "date": "Feb-26",
-    "description": "Prompt engineering experiments and reusable patterns for structuring high-signal LLM instructions.",
+    "description": "Multi-model prompt orchestration — six LLM engines, DeepEval judge, and a Next.js dashboard with PDF/Excel exports.",
     "tags": ["Prompt Engineering", "LLM", "Open Source"],
     "featured": true,
     "links": {
       "repo": "https://github.com/navendubrajesh/lumina_prompt_engine",
-      "live": "",
+      "live": "https://navendubrajesh.github.io/lumina_prompt_engine.enterprise/",
       "article": ""
     }
   },

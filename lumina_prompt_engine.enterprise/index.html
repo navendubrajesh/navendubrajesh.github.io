@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumina Prompt Engine</title>
+  <meta name="description" content="Multi-model prompt orchestration and evaluation — six LLM engines, DeepEval judge, MONEYSAVER mode, and CrewAI deployment.">
+  <link rel="canonical" href="https://navendubrajesh.github.io/lumina_prompt_engine.enterprise/">
+  <meta property="og:title" content="Lumina Prompt Engine">
+  <meta property="og:description" content="Generate, rank, and export model-specific prompts from a Persona across six LLM backends.">
+  <meta property="og:url" content="https://navendubrajesh.github.io/lumina_prompt_engine.enterprise/">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#134e4a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('nb-theme');
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    .enterprise-hero { padding: calc(var(--header-h) + 2rem) 0 3rem; }
+    .enterprise-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin: 0 0 1rem; line-height: 1.2; }
+    .enterprise-hero .lead { font-size: 1.125rem; color: var(--text-muted); max-width: 42rem; margin: 0 0 1.5rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .disclaimer {
+      margin-top: 2.5rem;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .docs-panel { display: none; padding: 0 0 4rem; }
+    .docs-panel.is-open { display: block; }
+
+    .docs-layout {
+      display: grid;
+      grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 56rem) {
+      .docs-layout { grid-template-columns: 1fr; }
+    }
+
+    .docs-nav {
+      position: sticky;
+      top: calc(var(--header-h) + 1rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .docs-nav-home {
+      display: block;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .docs-nav-home:hover,
+    .docs-nav-home.is-active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-nav-label {
+      margin: 0.5rem 0 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .docs-nav-tiles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .docs-nav-tile {
+      display: block;
+      width: 100%;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .docs-nav-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .docs-nav-tile.is-active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-nav-tile strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.98rem;
+    }
+
+    .docs-nav-tile span {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .docs-nav-more {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .docs-nav-more a {
+      display: block;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .docs-nav-more a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .docs-content {
+      min-height: 28rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .docs-content-inner { padding: 2rem; }
+
+    .docs-content-inner h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+    }
+
+    .docs-content-inner p,
+    .docs-content-inner li { color: var(--text-muted); }
+
+    .docs-content-inner ul { padding-left: 1.2rem; }
+
+    .docs-frame {
+      display: none;
+      width: 100%;
+      min-height: 70vh;
+      border: 0;
+      background: #fff;
+    }
+
+    .docs-frame.is-visible { display: block; }
+    .docs-content-inner.is-hidden { display: none; }
+
+    .btn.is-active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header is-scrolled">
+    <div class="header-inner container">
+      <a class="wordmark" href="/" aria-label="Navendu Brajesh — home">
+        <img src="/assets/monogram.svg" width="32" height="32" alt="" aria-hidden="true">
+        <span>Navendu Brajesh</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/#work">Work</a>
+        <a href="#docs" id="header-docs-toggle">Docs</a>
+        <a href="https://github.com/navendubrajesh/lumina_prompt_engine" rel="noopener noreferrer">GitHub</a>
+      </nav>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
+        <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+        <span class="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="enterprise-hero" id="landing">
+      <div class="container">
+        <p class="hero-eyebrow">Prompt orchestration</p>
+        <h1>Lumina Prompt Engine</h1>
+        <p class="lead">
+          Turn a Persona into ranked, model-specific prompts — six LLM engines in parallel,
+          a DeepEval judge on five criteria, and PDF/Excel exports from a Next.js dashboard.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" id="deployment-guide-btn" href="#docs-deployment">Deployment guide</a>
+          <button type="button" class="btn btn-secondary" id="full-docs-btn">Full documentation</button>
+          <a class="btn btn-secondary" href="https://github.com/navendubrajesh/lumina_prompt_engine" rel="noopener noreferrer">Repository</a>
+        </div>
+
+        <p class="disclaimer">
+          <strong>MONEYSAVER mode</strong> routes all six engines and the judge through Groq —
+          only <code>GROQ_API_KEY</code> required for full-matrix demos on the free tier.
+          Production deploys use <strong>Vercel</strong> (frontend) + <strong>CrewAI AMP</strong> (backend pipeline).
+        </p>
+      </div>
+    </section>
+
+    <section class="docs-panel" id="docs-panel" aria-label="Documentation">
+      <div class="container docs-layout">
+        <nav class="docs-nav" aria-label="Documentation sections">
+          <button type="button" class="docs-nav-home is-active" data-view="home">Home</button>
+
+          <p class="docs-nav-label">Core capabilities</p>
+          <ul class="docs-nav-tiles">
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="persona">
+                <strong>Persona studio</strong>
+                <span>Identity, intent, and output format drive every engine — one input, six optimized prompts.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="engines">
+                <strong>Multi-engine orchestration</strong>
+                <span>OpenAI, Anthropic, Google, Mistral, Llama, and Groq — parallel generation via LiteLLM + Instructor.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="judge">
+                <strong>5-criteria judge</strong>
+                <span>DeepEval GEval scores alignment, clarity, constraints, robustness, and efficiency (0–1).</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="money_saver">
+                <strong>MONEYSAVER mode</strong>
+                <span>Same six display names; all calls routed through Groq — one API key for demos.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="crewai">
+                <strong>CrewAI deployment</strong>
+                <span>Shared pipeline in FastAPI and AMP — identical behaviour in local dev and production.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="docs-nav-tile" data-view="export">
+                <strong>Export &amp; reporting</strong>
+                <span>Client-side PDF and Excel from the evaluation matrix — no extra server round-trips.</span>
+              </button>
+            </li>
+          </ul>
+
+          <p class="docs-nav-label">Full documentation</p>
+          <ul class="docs-nav-more">
+            <li><a href="#" data-frame="/lumina_prompt_engine/quickstart/">Quickstart</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/concepts/">Concepts</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/architecture/">Architecture</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/engines/">Engines</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/evaluation/">Evaluation</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/api/">API reference</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/frontend/">Frontend</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/crewai/">CrewAI</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/deployment/">Deployment</a></li>
+            <li><a href="#" data-frame="/lumina_prompt_engine/contributing/">Contributing</a></li>
+          </ul>
+        </nav>
+
+        <div class="docs-content">
+          <div class="docs-content-inner" id="docs-content-inner">
+            <h2>Lumina Prompt Engine</h2>
+            <p>
+              <strong>Multi-model prompt orchestration</strong> with a Next.js dashboard, FastAPI backend,
+              and optional CrewAI AMP deployment.
+            </p>
+            <p>
+              Define a Persona, generate six model-specific prompts in parallel, score each with a Judge-LLM,
+              and export ranked results — locally or in production on Vercel + CrewAI.
+            </p>
+            <ul>
+              <li>Backend in <code>backend/</code> — router, DeepEval judge, shared pipeline</li>
+              <li>Frontend in <code>frontend/</code> — Persona Studio, matrix, PDF/Excel exports</li>
+              <li>CrewAI in <code>crewai/</code> — same pipeline for AMP kickoff API</li>
+            </ul>
+            <p>Select a capability tile on the left, or open a full documentation page below the tiles.</p>
+          </div>
+          <iframe
+            class="docs-frame"
+            id="docs-frame"
+            title="Lumina Prompt Engine documentation"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> Navendu Brajesh · <a href="/">Portfolio</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var DOCS_BASE = '/lumina_prompt_engine/';
+      var docsPanel = document.getElementById('docs-panel');
+      var docsInner = document.getElementById('docs-content-inner');
+      var docsFrame = document.getElementById('docs-frame');
+      var fullDocsBtn = document.getElementById('full-docs-btn');
+      var deploymentGuideBtn = document.getElementById('deployment-guide-btn');
+      var headerDocsToggle = document.getElementById('header-docs-toggle');
+      var homeBtn = document.querySelector('.docs-nav-home[data-view="home"]');
+      var tileButtons = document.querySelectorAll('.docs-nav-tile');
+      var frameLinks = document.querySelectorAll('[data-frame]');
+
+      var tileContent = {
+        persona: {
+          title: 'Persona studio',
+          body: '<p>Every run starts with a Persona: <code>identity</code>, <code>intent</code>, and <code>output_format</code>.</p><p>All six engines receive the same Persona and produce prompts tuned to each model\'s strengths. The dashboard uses a two-phase flow — prompts first, then evaluation scores.</p>'
+        },
+        engines: {
+          title: 'Multi-engine orchestration',
+          body: '<p>Six backends defined in <code>backend/app/config/engines.xml</code>: OpenAI GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro, Mistral, Llama 3.1 70B, and Groq Llama 3.3 70B.</p><p><code>MultiEngineRouter</code> runs generation in parallel via Instructor + LiteLLM.</p>'
+        },
+        judge: {
+          title: '5-criteria judge',
+          body: '<p>DeepEval GEval scores each prompt on contextual alignment, instruction clarity, constraint adherence, robustness, and efficiency.</p><p>Overall score is the mean of the five criteria. Results rank descending in the API and dashboard matrix.</p>'
+        },
+        money_saver: {
+          title: 'MONEYSAVER mode',
+          body: '<p>When <code>money_saver=true</code>, all engine cards keep the same display names but route through Groq.</p><p>The judge also uses Groq (<code>USE_GROQ_FOR_JUDGE=1</code>). Only <code>GROQ_API_KEY</code> is required — ideal for demos on the free tier.</p>'
+        },
+        crewai: {
+          title: 'CrewAI deployment',
+          body: '<p><code>backend/app/pipeline.py</code> is shared by FastAPI and CrewAI — MONEYSAVER behaviour stays identical.</p><p>Deploy to AMP with project root = repo root. Set <code>NEXT_PUBLIC_CREWAI_BASE_URL</code> on Vercel for production UI.</p>'
+        },
+        export: {
+          title: 'Export & reporting',
+          body: '<p>PDF and Excel exports are client-side from the evaluation matrix — they consume <code>FinalResponse</code> JSON already in the browser.</p><p>No extra API calls; suggested run title included in exports.</p>'
+        }
+      };
+
+      function setActiveNav(activeEl) {
+        homeBtn.classList.toggle('is-active', activeEl === homeBtn);
+        tileButtons.forEach(function (btn) {
+          btn.classList.toggle('is-active', btn === activeEl);
+        });
+        frameLinks.forEach(function (link) {
+          link.classList.remove('is-active');
+        });
+      }
+
+      function showInlineContent(title, html) {
+        docsInner.classList.remove('is-hidden');
+        docsFrame.classList.remove('is-visible');
+        docsFrame.src = 'about:blank';
+        docsInner.innerHTML = '<h2>' + title + '</h2>' + html;
+      }
+
+      function showHomeContent() {
+        docsInner.classList.remove('is-hidden');
+        docsFrame.classList.remove('is-visible');
+        docsFrame.src = 'about:blank';
+        docsInner.innerHTML =
+          '<h2>Lumina Prompt Engine</h2>' +
+          '<p><strong>Multi-model prompt orchestration</strong> with a Next.js dashboard, FastAPI backend, and optional CrewAI AMP deployment.</p>' +
+          '<p>Define a Persona, generate six model-specific prompts in parallel, score each with a Judge-LLM, and export ranked results.</p>' +
+          '<ul><li>Backend in <code>backend/</code> — router, DeepEval judge, shared pipeline</li>' +
+          '<li>Frontend in <code>frontend/</code> — Persona Studio, matrix, PDF/Excel exports</li>' +
+          '<li>CrewAI in <code>crewai/</code> — same pipeline for AMP kickoff API</li></ul>' +
+          '<p>Select a capability tile on the left, or open a full documentation page below the tiles.</p>';
+      }
+
+      function showFrame(path) {
+        docsInner.classList.add('is-hidden');
+        docsFrame.classList.add('is-visible');
+        docsFrame.src = path;
+      }
+
+      function openDocs(view) {
+        docsPanel.classList.add('is-open');
+        fullDocsBtn.classList.add('is-active');
+        if (view === 'deployment') {
+          history.replaceState(null, '', '#docs-deployment');
+        } else {
+          history.replaceState(null, '', '#docs');
+        }
+        docsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (view === 'home') {
+          setActiveNav(homeBtn);
+          showHomeContent();
+          return;
+        }
+
+        if (view === 'deployment') {
+          showFrame(DOCS_BASE + 'deployment/');
+          setActiveNav(null);
+          return;
+        }
+
+        if (tileContent[view]) {
+          var tile = tileContent[view];
+          tileButtons.forEach(function (btn) {
+            if (btn.getAttribute('data-view') === view) {
+              setActiveNav(btn);
+            }
+          });
+          showInlineContent(tile.title, tile.body);
+        }
+      }
+
+      fullDocsBtn.addEventListener('click', function () {
+        openDocs('home');
+      });
+
+      headerDocsToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        openDocs('home');
+      });
+
+      deploymentGuideBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        openDocs('deployment');
+      });
+
+      homeBtn.addEventListener('click', function () {
+        openDocs('home');
+      });
+
+      tileButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openDocs(btn.getAttribute('data-view'));
+        });
+      });
+
+      frameLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          setActiveNav(null);
+          homeBtn.classList.remove('is-active');
+          tileButtons.forEach(function (btn) { btn.classList.remove('is-active'); });
+          link.classList.add('is-active');
+          showFrame(link.getAttribute('data-frame'));
+        });
+      });
+
+      if (location.hash === '#docs' || location.hash === '#docs-deployment') {
+        openDocs(location.hash === '#docs-deployment' ? 'deployment' : 'home');
+      }
+
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('nb-theme', next);
+      });
+
+      document.getElementById('year').textContent = String(new Date().getFullYear());
+    })();
+  </script>
+</body>
+</html>

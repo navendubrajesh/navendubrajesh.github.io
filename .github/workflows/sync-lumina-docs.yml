@@ -1,0 +1,49 @@
+name: Sync Lumina documentation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sync-lumina-docs.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-lumina-docs
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/checkout@v4
+        with:
+          repository: navendubrajesh/lumina_prompt_engine
+          path: lumina
+
+      - name: Build MkDocs site
+        run: |
+          pip install -r docs/requirements.txt
+          mkdocs build --strict
+        working-directory: lumina
+
+      - name: Publish to GitHub Pages path
+        run: |
+          rm -rf lumina_prompt_engine
+          cp -r lumina/site lumina_prompt_engine
+          touch lumina_prompt_engine/.nojekyll
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Sync lumina_prompt_engine documentation site."
+          file_pattern: lumina_prompt_engine/**
