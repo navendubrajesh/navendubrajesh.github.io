@@ -1,6 +1,8 @@
 name: Sync CMFA documentation
 
 on:
+  repository_dispatch:
+    types: [sync-cmfa-docs]
   workflow_dispatch:
   schedule:
     - cron: "0 6 * * *"
