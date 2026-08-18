@@ -1038,20 +1038,20 @@
   <span class="n">-e</span> <span class="n">control-plane</span><span class="p">/</span><span class="n">audit</span> <span class="n">-e</span> <span class="n">control-plane</span><span class="p">/</span><span class="n">finops</span> <span class="n">-e</span> <span class="n">runtime</span><span class="p">/</span><span class="n">core</span> <span class="n">-e</span> <span class="n">runtime</span><span class="p">/</span><span class="n">api</span>
 
 <span class="c"># Mock IdP (HMAC JWT)</span>
-<span class="nv">$env:CONTEXT_SKILLS_AUTH_MODE</span> <span class="p">=</span> <span class="s2">&quot;enforced&quot;</span>
-<span class="nv">$env:CONTEXT_SKILLS_OIDC_HMAC_SECRET</span> <span class="p">=</span> <span class="s2">&quot;dev-secret-at-least-32-characters-long&quot;</span>
-<span class="nv">$env:CONTEXT_SKILLS_OIDC_ISSUER</span> <span class="p">=</span> <span class="s2">&quot;https://mock-idp.local&quot;</span>
-<span class="nv">$env:CONTEXT_SKILLS_OIDC_AUDIENCE</span> <span class="p">=</span> <span class="s2">&quot;context-skills-api&quot;</span>
-<span class="nv">$env:CONTEXT_SKILLS_CONSOLE</span> <span class="p">=</span> <span class="s2">&quot;enabled&quot;</span>
+<span class="nv">$env:CONTEXT_SKILLS_AUTH_MODE</span> <span class="p">=</span> <span class="s2">"enforced"</span>
+<span class="nv">$env:CONTEXT_SKILLS_OIDC_HMAC_SECRET</span> <span class="p">=</span> <span class="s2">"dev-secret-at-least-32-characters-long"</span>
+<span class="nv">$env:CONTEXT_SKILLS_OIDC_ISSUER</span> <span class="p">=</span> <span class="s2">"https://mock-idp.local"</span>
+<span class="nv">$env:CONTEXT_SKILLS_OIDC_AUDIENCE</span> <span class="p">=</span> <span class="s2">"context-skills-api"</span>
+<span class="nv">$env:CONTEXT_SKILLS_CONSOLE</span> <span class="p">=</span> <span class="s2">"enabled"</span>
 
 <span class="c"># Start API</span>
 <span class="nb">cd </span><span class="n">runtime</span><span class="p">/</span><span class="n">api</span><span class="p">;</span> <span class="n">uvicorn</span> <span class="n">app</span><span class="p">:</span><span class="n">app</span> <span class="p">-</span><span class="n">-port</span> <span class="n">8080</span>
 </code></pre></div>
 <p>Generate a test token (Python):</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span><span class="o">,</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">({</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;admin1&quot;</span><span class="p">,</span><span class="s2">&quot;iss&quot;</span><span class="p">:</span><span class="s2">&quot;https://mock-idp.local&quot;</span><span class="p">,</span><span class="s2">&quot;aud&quot;</span><span class="p">:</span><span class="s2">&quot;context-skills-api&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;roles&quot;</span><span class="p">:</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span><span class="s2">&quot;tenant-a&quot;</span><span class="p">,</span><span class="s2">&quot;exp&quot;</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">+</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)},</span>
-  <span class="s2">&quot;dev-secret-at-least-32-characters-long&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;HS256&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">({</span><span class="s2">"sub"</span><span class="p">:</span><span class="s2">"admin1"</span><span class="p">,</span><span class="s2">"iss"</span><span class="p">:</span><span class="s2">"https://mock-idp.local"</span><span class="p">,</span><span class="s2">"aud"</span><span class="p">:</span><span class="s2">"context-skills-api"</span><span class="p">,</span>
+  <span class="s2">"roles"</span><span class="p">:</span><span class="s2">"admin"</span><span class="p">,</span><span class="s2">"tenant_id"</span><span class="p">:</span><span class="s2">"tenant-a"</span><span class="p">,</span><span class="s2">"exp"</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">+</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)},</span>
+  <span class="s2">"dev-secret-at-least-32-characters-long"</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">"HS256"</span><span class="p">))</span>
 </code></pre></div>
 <p>Open http://localhost:8080/console/ — paste token, browse catalog.</p>
 <h2 id="workstream-exercise-flows">Workstream exercise flows<a class="headerlink" href="#workstream-exercise-flows" title="Permanent link">&para;</a></h2>
